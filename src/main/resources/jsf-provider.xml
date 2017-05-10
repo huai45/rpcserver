@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd">
+
+    <!-- 服务端 -->
+    <jsf:server id="myjsf" protocol="jsf" />
+
+    <!-- 实现类 -->
+    <bean id="popBusService" class="com.jd.pop.illegal.api.service.PopBusService" />
+
+    <!-- 注册中心   192.168.150.121 i.jsf.jd.com  #测试index服务地址 -->
+    <jsf:registry id="jsfRegistry" protocol="jsfRegistry" index="i.jsf.jd.com" />
+
+    <!-- 发布服务 alias可以改成自己的 -->
+    <jsf:provider id="popBuzService" interface="com.jd.pop.illegal.api.service.PopBuzService" alias="POPBUZ-JSFSERVICE"
+                  ref="popBusService" server="myjsf" >
+    </jsf:provider>
+</beans>
