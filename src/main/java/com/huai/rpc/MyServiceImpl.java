@@ -22,4 +22,10 @@ public class MyServiceImpl implements MyService {
         param.put("code"," hello rpc  success! ");
         return param;
     }
+
+    @Override
+    public String hello3(Integer num) {
+        System.out.println("  in hello3  ,  num="+num);
+        return " I get "+num;
+    }
 }

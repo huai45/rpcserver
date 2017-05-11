@@ -23,7 +23,7 @@ public class MyServerInHandler  extends ChannelInboundHandlerAdapter {
         ByteBuf result = (ByteBuf) msg;
         byte[] result1 = new byte[result.readableBytes()];
         result.readBytes(result1);
-        Map param = MyUtil.getObject(result1);
+        Map param = (Map)MyUtil.getObject(result1);
         System.out.println("param:" + param);
         // 接收并打印客户端的信息
         System.out.println("Client said:" + param);
@@ -37,11 +37,11 @@ public class MyServerInHandler  extends ChannelInboundHandlerAdapter {
         Object obj = onwClass.newInstance();
         Method m = obj.getClass().getDeclaredMethod(method, parameterTypes);
         //调用方法
-        Map  return_map = (Map) m.invoke(obj, params);
-        System.out.println("return_map:"+return_map);
+        Object  return_object = m.invoke(obj, params);
+        System.out.println("return_object:"+return_object);
 
         // 向客户端发送消息
-        byte[] b = MyUtil.getByte(return_map);
+        byte[] b = MyUtil.getByte(return_object);
         // 在当前场景下，发送的数据必须转换成ByteBuf数组
         ByteBuf encoded = ctx.alloc().buffer(4 * b.length);
         encoded.writeBytes(b);

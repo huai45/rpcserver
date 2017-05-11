@@ -11,4 +11,6 @@ public interface MyService {
 
     public Map hello2(Map param,String text,Integer num);
 
+    public String hello3(Integer num);
+
 }
