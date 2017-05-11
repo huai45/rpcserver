@@ -1,5 +1,6 @@
 package com.huai.rpc;
 
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.util.Map;
 
@@ -23,9 +24,19 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         Map param = (Map)MyUtil.getObject(bytes);
         // 收到消息直接打印输出
         System.out.println(ctx.channel().remoteAddress() + " param : " + param);
-        // 返回客户端消息 - 我已经接收到了你的消息
-        param.put("result_code","200");
-        bytes = MyUtil.getByte(param);
+
+        // 返回客户端消息 - 通过反射调用业务方法
+        String method = param.get("method").toString();
+        Class[] parameterTypes = (Class[])param.get("paramTypes");
+        Object[] params = ( Object[])param.get("params");
+        Class onwClass = Class.forName("com.huai.rpc.MyServiceImpl");
+        Object obj = onwClass.newInstance();
+        Method m = obj.getClass().getDeclaredMethod(method, parameterTypes);
+        //调用方法
+        Object  return_object = m.invoke(obj, params);
+        System.out.println("return_object:"+return_object);
+
+        bytes = MyUtil.getByte(return_object);
         ctx.writeAndFlush(bytes);
         bytes = null;
     }
