@@ -18,7 +18,7 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-
+        // pipeline管理channel中的Handler，在channel队列中添加一个handler来处理业务
         /*
          * 这个地方的 必须和服务端对应上。否则无法正常解码和编码
          *
